@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff5e62);
+            color: white;
+            animation: backgroundShift 10s infinite;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .date {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .clock {
+            font-size: 3rem;
+            font-weight: bold;
+            padding: 20px;
+            border: 5px solid white;
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+            animation: colorShift 5s infinite;
+        }
+
+        @keyframes colorShift {
+            0% { border-color: #ff7eb3; box-shadow: 0px 0px 20px #ff7eb3; }
+            25% { border-color: #ff758c; box-shadow: 0px 0px 20px #ff758c; }
+            50% { border-color: #ff5e62; box-shadow: 0px 0px 20px #ff5e62; }
+            75% { border-color: #ff758c; box-shadow: 0px 0px 20px #ff758c; }
+            100% { border-color: #ff7eb3; box-shadow: 0px 0px 20px #ff7eb3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="date" id="date"></div>
+        <div class="clock" id="clock"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            // Get the date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const currentDate = now.toLocaleDateString('en-US', options);
+            document.getElementById('date').textContent = currentDate;
+
+            // Get the time in AM/PM format
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12; // Convert to 12-hour format
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call to display the clock immediately
+    </script>
+</body>
+</html>
